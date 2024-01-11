@@ -1,0 +1,17 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+  <file alias="qapplib/standardactions/about.png"  >../external/fatcow/16x16/help.png</file>
+  <file alias="qapplib/standardactions/copy.png"   >../external/fatcow/16x16/page_copy.png</file>
+  <file alias="qapplib/standardactions/cut.png"    >../external/fatcow/16x16/cut.png</file>
+  <file alias="qapplib/standardactions/delete.png" >../external/fatcow/16x16/delete.png</file>
+  <file alias="qapplib/standardactions/exit.png"   >../external/fatcow/16x16/door_out.png</file>
+  <file alias="qapplib/standardactions/export.png" >../external/fatcow/16x16/document_export.png</file>
+  <file alias="qapplib/standardactions/new.png"    >../external/fatcow/16x16/page_white_add.png</file>
+  <file alias="qapplib/standardactions/open.png"   >../external/fatcow/16x16/folder.png</file>
+  <file alias="qapplib/standardactions/paste.png"  >../external/fatcow/16x16/page_paste.png</file>
+  <file alias="qapplib/standardactions/redo.png"   >../external/fatcow/16x16/redo.png</file>
+  <file alias="qapplib/standardactions/save.png"   >../external/fatcow/16x16/diskette.png</file>
+  <file alias="qapplib/standardactions/save_as.png">../external/fatcow/16x16/save_as.png</file>
+  <file alias="qapplib/standardactions/undo.png"   >../external/fatcow/16x16/undo.png</file>
+</qresource>
+</RCC>

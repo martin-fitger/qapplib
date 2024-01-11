@@ -96,10 +96,13 @@ namespace qapp
 	{
 		if (s_GenericDocumentIcon.isNull())
 		{
-			s_GenericDocumentIcon = QIcon(":/file.png");
+			s_GenericDocumentIcon = QIcon(":/qapplib/icons/file.png");
 		}
 		return s_GenericDocumentIcon;
 	}
 }
 
 #include <moc_DocumentManager.cpp>
+
+// TODO: Move?
+#include <qrc_qapplib_icons.cpp>

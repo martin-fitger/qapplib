@@ -24,6 +24,8 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 #include <qapplib/actions/ActionManager.hpp>
 #include <qapplib/actions/StandardActions.h>
 
+#define ICON_PREFIX  ":/qapplib/standardactions/"
+
 namespace qapp
 {
 	SStandardActions s_StandardActions;
@@ -48,18 +50,20 @@ namespace qapp
 		#define DEF_ACTION(member, name, img, keys, enabled) \
 			s_StandardActions.member = NewAction(name, img, (keys == 0) ? QKeySequence() : QKeySequence(keys), parent, enabled); \
 			s_StandardActionHandles.member = action_manager.RegisterAction(s_StandardActions.member);
-		DEF_ACTION(New,       "&New",        ":/new.png",     Qt::CTRL + Qt::Key_N, false);
-		DEF_ACTION(Open,      "&Open",       ":/open.png",    Qt::CTRL + Qt::Key_O, false);
-		DEF_ACTION(Save,      "&Save",       ":/save.png",    Qt::CTRL + Qt::Key_S, false);
-		DEF_ACTION(SaveAs,    "Save As...",  ":/save_as.png", 0,                    false);
-		DEF_ACTION(Undo,      "&Undo",       ":/undo.png",    Qt::CTRL + Qt::Key_Z, false);
-		DEF_ACTION(Redo,      "&Redo",       ":/redo.png",    Qt::CTRL + Qt::Key_Y, false);
-		DEF_ACTION(Cut,       "Cu&t",        ":/cut.png",     Qt::CTRL + Qt::Key_X, false);
-		DEF_ACTION(Copy,      "&Copy",       ":/copy.png",    Qt::CTRL + Qt::Key_C, false);
-		DEF_ACTION(Paste,     "&Paste",      ":/paste.png",   Qt::CTRL + Qt::Key_V, false);
-		DEF_ACTION(Delete,    "&Delete",     ":/delete.png",  Qt::Key_Delete,       false);
+		DEF_ACTION(New,       "&New",        ICON_PREFIX "new.png",     Qt::CTRL + Qt::Key_N, false);
+		DEF_ACTION(Open,      "&Open",       ICON_PREFIX "open.png",    Qt::CTRL + Qt::Key_O, false);
+		DEF_ACTION(Save,      "&Save",       ICON_PREFIX "save.png",    Qt::CTRL + Qt::Key_S, false);
+		DEF_ACTION(SaveAs,    "Save As...",  ICON_PREFIX "save_as.png", 0,                    false);
+		DEF_ACTION(Undo,      "&Undo",       ICON_PREFIX "undo.png",    Qt::CTRL + Qt::Key_Z, false);
+		DEF_ACTION(Redo,      "&Redo",       ICON_PREFIX "redo.png",    Qt::CTRL + Qt::Key_Y, false);
+		DEF_ACTION(Cut,       "Cu&t",        ICON_PREFIX "cut.png",     Qt::CTRL + Qt::Key_X, false);
+		DEF_ACTION(Copy,      "&Copy",       ICON_PREFIX "copy.png",    Qt::CTRL + Qt::Key_C, false);
+		DEF_ACTION(Paste,     "&Paste",      ICON_PREFIX "paste.png",   Qt::CTRL + Qt::Key_V, false);
+		DEF_ACTION(Delete,    "&Delete",     ICON_PREFIX "delete.png",  Qt::Key_Delete,       false);
 		DEF_ACTION(SelectAll, "Select &All", "",              Qt::CTRL + Qt::Key_A, false);
-		DEF_ACTION(Exit,      "E&xit",       ":/exit.png",    Qt::CTRL + Qt::Key_Q, false);
-		DEF_ACTION(About,     "About",       ":/about.png",   Qt::Key_F1,           false);
+		DEF_ACTION(Exit,      "E&xit",       ICON_PREFIX "exit.png",    Qt::CTRL + Qt::Key_Q, false);
+		DEF_ACTION(About,     "About",       ICON_PREFIX "about.png",   Qt::Key_F1,           false);
 	}
 }
+
+#include <qrc_qapplib_standard_actions.cpp>
