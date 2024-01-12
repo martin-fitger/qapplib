@@ -316,6 +316,7 @@ namespace qapp
 
 	void CWorkbench::UpdateActions(CActionUpdateContext& ctx)
 	{
+		ctx.Enable(s_StandardActionHandles.New);
 		ctx.Enable(s_StandardActionHandles.Open);
 		if (m_CurrentEditor && m_CurrentEditor->Dirty())
 		{
@@ -326,7 +327,11 @@ namespace qapp
 
 	void CWorkbench::OnAction(HAction action_handle)
 	{
-		if (m_CurrentEditor)
+		if (s_StandardActionHandles.New == action_handle)
+		{
+			New(*m_DocumentManager.DocumentTypes().front().Handler);
+		}
+		else if (m_CurrentEditor)
 		{
 			if (action_handle == s_StandardActionHandles.Save)
 			{
