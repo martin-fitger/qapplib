@@ -33,7 +33,7 @@ namespace qapp
 					break;
 				throw std::runtime_error("Operation stream error");
 			}
-			const auto end = in.tellg() + header.m_Size;
+			const auto end = in.tellg() + (std::streampos)header.m_Size;
 			header.m_Processor(editor, EOperation_Do, in, header.m_Size);
 			in.seekg(end);
 		}

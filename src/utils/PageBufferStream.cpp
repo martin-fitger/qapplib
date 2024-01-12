@@ -70,7 +70,7 @@ namespace qapp
 	std::streampos page_buffer_istream::streambuf::seekpos(std::streampos sp, ios_base::openmode which)
 	{
 		QAPP_ASSERT(ios_base::in == which);
-		m_Cur = std::min(m_Beg + std::max((std::streampos)0, sp), m_End);
+		m_Cur = std::min((std::streampos)m_Beg + std::max((std::streampos)0, sp), (std::streampos)m_End);
 		return m_Cur - m_Beg;
 	}
 

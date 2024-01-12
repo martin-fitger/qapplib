@@ -105,4 +105,12 @@ namespace qapp
 #include <moc_DocumentManager.cpp>
 
 // TODO: Move?
-#include <qrc_qapplib_icons.cpp>
+// Stupid hack needed to avoid "duplicate symbol" linker error when using multiple .qrc files
+bool qRegisterResourceData(int, const unsigned char *, const unsigned char *, const unsigned char *);
+bool qUnregisterResourceData(int, const unsigned char *, const unsigned char *, const unsigned char *);
+namespace qapp_icons
+{
+	bool qRegisterResourceData(int a, const unsigned char * b, const unsigned char * c, const unsigned char * d)   { return ::qRegisterResourceData(a, b, c, d); }
+	bool qUnregisterResourceData(int a, const unsigned char * b, const unsigned char * c, const unsigned char * d) { return ::qUnregisterResourceData(a, b, c, d); }
+	#include <qrc_qapplib_icons.cpp>
+}

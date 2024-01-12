@@ -94,7 +94,7 @@ namespace qapp
 		T batch[TBufferSize / sizeof(T)];
 		while (count)
 		{
-			const size_t n = std::min(_countof(batch), count);
+			const size_t n = std::min(std::size(batch), count);
 			in.read((char*)batch, n * sizeof(T));
 			if (in.gcount() != n * sizeof(T))
 			{
@@ -146,7 +146,7 @@ namespace qapp
 			if (line_beg < end && (line_beg == buf))
 			{
 				char buf[1024];
-				sprintf_s(buf, "Too long line in file. Current limit is %zu characters.", max_line_length);
+				snprintf(buf, sizeof(buf), "Too long line in file. Current limit is %zu characters.", max_line_length);
 				throw std::runtime_error(buf);
 			}
 			const size_t chars_remaining = end - line_beg;

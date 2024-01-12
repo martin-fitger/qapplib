@@ -20,6 +20,7 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <stdexcept>
+#include <QtCore/qpoint.h>
 #include <QtCore/qvariant.h>
 
 namespace qapp

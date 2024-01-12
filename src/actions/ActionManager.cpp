@@ -19,10 +19,10 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdexcept>
 
-#include <QtCore/QEvent>
-#include <QtCore/QTimer>
+#include <QtCore/qtimer.h>
 #include <QtCore/quuid.h>
-#include <QtWidgets/QAction>
+#include <QtGui/qevent.h>
+#include <QtWidgets/qaction.h>
 
 #include <qapplib/actions/ActionManager.hpp>
 
@@ -32,8 +32,8 @@ namespace qapp
 
 	inline CActionManager::action_guid_t CActionManager::ActionGuidFromId(actionid_t id)
 	{
-		static_assert(sizeof(action_guid_t) == sizeof(GUID));
-		auto g = (GUID)(id ? QUuid(id) : QUuid());
+		static_assert(sizeof(action_guid_t) == sizeof(QUuid));
+		auto g = (id ? QUuid(id) : QUuid());
 		return *reinterpret_cast<action_guid_t*>(&g);
 	}
 

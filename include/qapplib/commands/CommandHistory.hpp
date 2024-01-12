@@ -115,7 +115,7 @@ namespace qapp
 			m_DataBuffer.resize(m_DataBufferPos);
 			return false;
 		}
-		typedef decltype(cmd_optional)::value_type command_type;
+		typedef typename decltype(cmd_optional)::value_type command_type;
 		auto* cmd = m_Allocator.New<SCommand>();
 		cmd->m_Command = m_Allocator.New<command_type>(std::move(cmd_optional.value()));
 		cmd->m_AllocatorState = allocator_state;
