@@ -24,6 +24,8 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 
 namespace qapp
 {
+	const CCommandHistory::SCommand* CCommandHistory::NO_CLEAN_POINT = (CCommandHistory::SCommand*)(intptr_t)-1;
+
 	CCommandHistory::CCommandHistory(IEditor& editor, CPagePool& page_pool)
 		: m_Editor(editor)
 		, m_DataBuffer(page_pool)
@@ -39,6 +41,7 @@ namespace qapp
 	void CCommandHistory::Clear()
 	{
 		FreeAll();
+		m_CleanPoint = nullptr;
 		OnModified();
 	}
 
@@ -107,6 +110,16 @@ namespace qapp
 		OnModified();
 	}
 
+	void CCommandHistory::SetCleanAtCurrentPosition()
+	{
+		if (m_CleanPoint == m_UndoStack)
+		{
+			return;
+		}
+		m_CleanPoint = m_UndoStack;
+		OnModified();
+	}
+
 	void CCommandHistory::Do(SCommand& cmd)
 	{
 		page_buffer_istream data(m_DataBuffer, m_DataBufferPos, m_DataBufferPos + cmd.m_DataSize);
@@ -132,8 +145,17 @@ namespace qapp
 		{
 			auto* tmp = front;
 			front = tmp->m_Next;
-			tmp->~SCommand();
+			FreeCommand(*tmp);
 		}
+	}
+
+	void CCommandHistory::FreeCommand(SCommand& cmd)
+	{
+		if (&cmd == m_CleanPoint)
+		{
+			m_CleanPoint = NO_CLEAN_POINT;
+		}
+		cmd.~SCommand();
 	}
 
 	CCommandHistory::SCommand::~SCommand()

@@ -57,7 +57,9 @@ namespace qapp
 
 		void ClearRedoStack();
 
-		inline bool Dirty() const { return CanUndo(); }
+		void SetCleanAtCurrentPosition();
+
+		inline bool Dirty() const { return m_CleanPoint != m_UndoStack; }
 
 	Q_SIGNALS:
 		void DirtyChanged(bool dirty);
@@ -80,6 +82,8 @@ namespace qapp
 
 		void FreeCommandList(SCommand* front);
 
+		void FreeCommand(SCommand& cmd);
+
 		void FreeAll();
 
 		void OnModified();
@@ -90,7 +94,10 @@ namespace qapp
 		size_t      m_DataBufferPos = 0;
 		SCommand*   m_UndoStack = nullptr;
 		SCommand*   m_RedoStack = nullptr;
+		const SCommand* m_CleanPoint = nullptr;
 		bool m_LastCommunicatedDirtyState = false;
+
+		static const SCommand* NO_CLEAN_POINT;
 	};
 
 	template<class TCommand, typename... TArgs>
