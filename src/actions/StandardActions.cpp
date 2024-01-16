@@ -58,6 +58,7 @@ namespace qapp
 		DEF_ACTION(Cut,       "Cu&t",        ICON_PREFIX "cut.png",     Qt::CTRL + Qt::Key_X, false);
 		DEF_ACTION(Copy,      "&Copy",       ICON_PREFIX "copy.png",    Qt::CTRL + Qt::Key_C, false);
 		DEF_ACTION(Paste,     "&Paste",      ICON_PREFIX "paste.png",   Qt::CTRL + Qt::Key_V, false);
+		DEF_ACTION(Duplicate, "Duplicate",   ICON_PREFIX "copy.png",    Qt::CTRL + Qt::Key_D, false);
 		DEF_ACTION(Delete,    "&Delete",     ICON_PREFIX "delete.png",  Qt::Key_Delete,       false);
 		DEF_ACTION(SelectAll, "Select &All", "",              Qt::CTRL + Qt::Key_A, false);
 		DEF_ACTION(Exit,      "E&xit",       ICON_PREFIX "exit.png",    Qt::CTRL + Qt::Key_Q, false);

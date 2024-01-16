@@ -44,6 +44,7 @@ namespace qapp
 		QAction* Cut = 0;
 		QAction* Copy = 0;
 		QAction* Paste = 0;
+		QAction* Duplicate = 0;
 		QAction* Delete = 0;
 		QAction* SelectAll = 0;
 	};
@@ -64,6 +65,7 @@ namespace qapp
 		HAction Cut = 0;
 		HAction Copy = 0;
 		HAction Paste = 0;
+		HAction Duplicate = 0;
 		HAction Delete = 0;
 		HAction SelectAll = 0;
 	};
