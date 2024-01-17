@@ -73,7 +73,7 @@ namespace qapp
 		{
 			filter += ";;";
 		}
-		filter += "All files (*.*)";
+		filter += "All files (*)";
 
 		return QFileDialog::getOpenFileName(parent, "Open File", initial_directory, filter);
 	}
