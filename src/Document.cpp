@@ -17,10 +17,16 @@ You should have received a copy of the GNU Lesser General Public License
 along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QtCore/qfileinfo.h>
 #include <qapplib/Document.hpp>
 
 namespace qapp
 {
+	QString CDocument::Title() const
+	{
+		return QFileInfo(m_Path).baseName();
+	}
+
 	const QString& CDocument::Path() const
 	{
 		return m_Path;

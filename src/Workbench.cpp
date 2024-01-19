@@ -148,6 +148,7 @@ namespace qapp
 		std::shared_ptr<CDocument> document(document_type_handler.NewDocument().release());
 		auto editor = document_type_handler.CreateEditor(*document);
 		AddEditor(std::move(editor), std::move(document), &document_type_handler);
+		SetCurrentEditor(m_Editors.back().Editor.get());
 	}
 
 	void CWorkbench::Open(QString path)
@@ -198,7 +199,7 @@ namespace qapp
 			return false;
 		}
 
-		if (editor_entry.Document->Path().isEmpty() || !CanHandlerSaveExtension(*editor_entry.Handler, ExtensionNoDotFromPath(editor_entry.Document->Path())))
+		if (!QFileInfo(editor_entry.Document->Path()).isAbsolute() || !CanHandlerSaveExtension(*editor_entry.Handler, ExtensionNoDotFromPath(editor_entry.Document->Path())))
 		{
 			return SaveAs(editor);
 		}
@@ -222,9 +223,10 @@ namespace qapp
 		}
 
 		QString initialPath = editor_entry.Document->Path();
-		if (initialPath.isEmpty())
+
+		if (!QFileInfo(initialPath).isAbsolute())
 		{
-			initialPath = QDir(this->LastDirectory()).filePath(supported_types.front().FileNamePrefix);
+			initialPath = QDir(this->LastDirectory()).filePath(editor_entry.Document->Title());
 		}
 
 		QString path = qapp::GetSaveFileName(QApplication::activeWindow(), supported_types, initialPath);
@@ -240,7 +242,10 @@ namespace qapp
 	{
 		path = CleanPath(path);
 
-		if (path.isEmpty())
+		QFileInfo fileInfo(path);
+		const bool path_is_real = fileInfo.isAbsolute() || fileInfo.isRelative();
+		
+		if (!path_is_real)
 		{
 			return SaveAs(editor);
 		}
@@ -302,7 +307,7 @@ namespace qapp
 	{
 		if (auto* doc = CurrentDocument())
 		{
-			if (!doc->Path().isEmpty())
+			if (QFileInfo(doc->Path()).isAbsolute())
 			{
 				return QFileInfo(doc->Path()).absolutePath();
 			}

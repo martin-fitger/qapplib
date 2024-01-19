@@ -27,11 +27,14 @@ namespace qapp
 	{
 		Q_OBJECT
 	public:
+		QString Title() const;
+
 		const QString& Path() const;
 
 		void SetPath(QString path);
 
 	private:
+		QString m_Title;
 		QString m_Path;
 	};
 }
