@@ -52,6 +52,7 @@ namespace qapp
 		virtual std::unique_ptr<CDocument> NewDocument() = 0;
 		virtual std::unique_ptr<CDocument> LoadDocument(QIODevice& in) = 0;
 		virtual std::span<const SDocumentTypeDesc> SupportedSaveFormats() = 0;
+		virtual std::span<const SDocumentTypeDesc> SupportedExportFormats() = 0;
 		virtual void                       SaveDocument(CDocument& document, QIODevice& out, const SDocumentTypeDesc& format) = 0;
 		virtual std::unique_ptr<CEditor>   CreateEditor(CDocument& document) = 0;
 		virtual bool                       TryIdBlock(const QByteArray& id_block) = 0;

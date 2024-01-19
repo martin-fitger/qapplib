@@ -39,6 +39,12 @@ namespace qapp
 	{
 		Q_OBJECT
 	public:
+		enum class ESaveMode
+		{
+			Save,
+			Export,
+		};
+
 		CWorkbench(CDocumentManager& document_manager, CActionManager& action_manager, QSettings& settings);
 		~CWorkbench();
 
@@ -58,10 +64,12 @@ namespace qapp
 
 		bool Save(IEditor& editor);
 
-		bool SaveAs(IEditor& editor);
+		bool SaveAs(IEditor& editor, ESaveMode mode = ESaveMode::Save);
 
-		bool Save(IEditor& editor, QString path);
+		bool Save(IEditor& editor, QString path, ESaveMode mode = ESaveMode::Save);
 
+		bool Export(IEditor& editor);
+			
 		const std::vector<QString>& RecentFiles() const;
 
 		const QString LastDirectory() const;

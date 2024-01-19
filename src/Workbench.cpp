@@ -207,7 +207,7 @@ namespace qapp
 		return Save(editor, editor_entry.Document->Path());
 	}
 
-	bool CWorkbench::SaveAs(IEditor& editor)
+	bool CWorkbench::SaveAs(IEditor& editor, ESaveMode mode)
 	{
 		auto& editor_entry = m_Editors[EditorIndex(editor)];
 
@@ -216,7 +216,7 @@ namespace qapp
 			return false;
 		}
 
-		auto supported_types = editor_entry.Handler->SupportedSaveFormats();
+		auto supported_types = (ESaveMode::Save == mode) ? editor_entry.Handler->SupportedSaveFormats() : editor_entry.Handler->SupportedExportFormats();
 		if (supported_types.empty())
 		{
 			return false;
@@ -235,17 +235,14 @@ namespace qapp
 			return false;
 		}
 
-		return Save(editor, path);
+		return Save(editor, path, mode);
 	}
 
-	bool CWorkbench::Save(IEditor& editor, QString path)
+	bool CWorkbench::Save(IEditor& editor, QString path, ESaveMode mode)
 	{
 		path = CleanPath(path);
 
-		QFileInfo fileInfo(path);
-		const bool path_is_real = fileInfo.isAbsolute() || fileInfo.isRelative();
-		
-		if (!path_is_real)
+		if (!QFileInfo(path).isAbsolute())
 		{
 			return SaveAs(editor);
 		}
@@ -257,7 +254,7 @@ namespace qapp
 			return false;
 		}
 
-		auto supported_types = editor_entry.Handler->SupportedSaveFormats();
+		auto supported_types = (ESaveMode::Save == mode) ? editor_entry.Handler->SupportedSaveFormats() : editor_entry.Handler->SupportedExportFormats();
 		if (supported_types.empty())
 		{
 			throw std::runtime_error("Can not save this file type");
@@ -286,16 +283,24 @@ namespace qapp
 			editor_entry.Handler->SaveDocument(*editor_entry.Document, file, *current_type);
 		}
 
-		if (editor_entry.Document->Path() != path)
+		if (ESaveMode::Save == mode)
 		{
-			editor_entry.Document->SetPath(path);
+			if (editor_entry.Document->Path() != path)
+			{
+				editor_entry.Document->SetPath(path);
+			}
+
+			AddToRecentFiles(path);
+
+			editor.OnSaved();
 		}
 
-		AddToRecentFiles(path);
-
-		editor.OnSaved();
-
 		return true;
+	}
+
+	bool CWorkbench::Export(IEditor& editor)
+	{
+		return SaveAs(editor, ESaveMode::Export);
 	}
 
 	const std::vector<QString>& CWorkbench::RecentFiles() const
@@ -323,10 +328,14 @@ namespace qapp
 	{
 		ctx.Enable(s_StandardActionHandles.New);
 		ctx.Enable(s_StandardActionHandles.Open);
-		if (m_CurrentEditor && m_CurrentEditor->Dirty())
+		if (m_CurrentEditor)
 		{
-			ctx.Enable(s_StandardActionHandles.Save);
-			ctx.Enable(s_StandardActionHandles.SaveAs);
+			ctx.Enable(s_StandardActionHandles.Export);
+			if (m_CurrentEditor->Dirty())
+			{
+				ctx.Enable(s_StandardActionHandles.Save);
+				ctx.Enable(s_StandardActionHandles.SaveAs);
+			}
 		}
 	}
 
@@ -345,6 +354,10 @@ namespace qapp
 			if (action_handle == s_StandardActionHandles.SaveAs)
 			{
 				SaveAs(*m_CurrentEditor);
+			}
+			if (action_handle == s_StandardActionHandles.Export)
+			{
+				Export(*m_CurrentEditor);
 			}
 		}
 	}

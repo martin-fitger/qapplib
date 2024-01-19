@@ -35,6 +35,7 @@ namespace qapp
 		QAction* Open = 0;
 		QAction* Save = 0;
 		QAction* SaveAs = 0;
+		QAction* Export = 0;
 		QAction* Exit = 0;
 		QAction* About = 0;
 
@@ -56,6 +57,7 @@ namespace qapp
 		HAction Open = 0;
 		HAction Save = 0;
 		HAction SaveAs = 0;
+		HAction Export = 0;
 		HAction Exit = 0;
 		HAction About = 0;
 

@@ -53,6 +53,7 @@ namespace qapp
 		DEF_ACTION(Open,      "&Open",       ICON_PREFIX "open.png",    Qt::CTRL + Qt::Key_O, false);
 		DEF_ACTION(Save,      "&Save",       ICON_PREFIX "save.png",    Qt::CTRL + Qt::Key_S, false);
 		DEF_ACTION(SaveAs,    "Save As...",  ICON_PREFIX "save_as.png", 0,                    false);
+		DEF_ACTION(Export,    "Export...",   ICON_PREFIX "export.png",  0,                    false);
 		DEF_ACTION(Undo,      "&Undo",       ICON_PREFIX "undo.png",    Qt::CTRL + Qt::Key_Z, false);
 		DEF_ACTION(Redo,      "&Redo",       ICON_PREFIX "redo.png",    Qt::CTRL + Qt::Key_Y, false);
 		DEF_ACTION(Cut,       "Cu&t",        ICON_PREFIX "cut.png",     Qt::CTRL + Qt::Key_X, false);
@@ -60,7 +61,7 @@ namespace qapp
 		DEF_ACTION(Paste,     "&Paste",      ICON_PREFIX "paste.png",   Qt::CTRL + Qt::Key_V, false);
 		DEF_ACTION(Duplicate, "Duplicate",   ICON_PREFIX "copy.png",    Qt::CTRL + Qt::Key_D, false);
 		DEF_ACTION(Delete,    "&Delete",     ICON_PREFIX "delete.png",  Qt::Key_Delete,       false);
-		DEF_ACTION(SelectAll, "Select &All", "",              Qt::CTRL + Qt::Key_A, false);
+		DEF_ACTION(SelectAll, "Select &All", "",                        Qt::CTRL + Qt::Key_A, false);
 		DEF_ACTION(Exit,      "E&xit",       ICON_PREFIX "exit.png",    Qt::CTRL + Qt::Key_Q, false);
 		DEF_ACTION(About,     "About",       ICON_PREFIX "about.png",   Qt::Key_F1,           false);
 	}
