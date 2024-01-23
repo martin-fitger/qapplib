@@ -113,17 +113,32 @@ namespace qapp
 		return INVALID_ACTION_HANDLE;
 	}
 
-	void CActionManager::AddActionTarget(IActionTarget* target)
+	void CActionManager::AddActionTarget(IActionTarget* target, EActionTargetPrio prio)
 	{
-		m_ActionTargets.push_back(target);
+		for (const auto& t : m_ActionTargets)
+		{
+			if (t.first == target)
+			{
+				throw std::runtime_error("CActionManager: Trying to add action target twice");
+			}
+		}
+
+		auto it = m_ActionTargets.begin();
+		for (; it != m_ActionTargets.end() && it->second < prio; ++it);
+		m_ActionTargets.insert(it, std::make_pair(target, prio));
 	}
 
 	void CActionManager::RemoveActionTarget(IActionTarget* target)
 	{
-		auto it = std::find(m_ActionTargets.begin(), m_ActionTargets.end(), target);
-		if (m_ActionTargets.end() == it)
-			throw std::runtime_error("CActionManager: Trying to remove action target that hasn't been added");
-		m_ActionTargets.erase(it);
+		for (auto it = m_ActionTargets.begin(); it != m_ActionTargets.end(); ++it)
+		{
+			if (it->first == target)
+			{
+				m_ActionTargets.erase(it);
+				return;
+			}
+		}
+		throw std::runtime_error("CActionManager: Trying to remove action target that hasn't been added");
 	}
 
 	void CActionManager::OnUpdateTimer()
@@ -134,8 +149,13 @@ namespace qapp
 
 	void CActionManager::OnAction(HAction action_handle)
 	{
-		for (auto& target : m_ActionTargets)
-			target->OnAction(action_handle);
+		for (auto it = m_ActionTargets.rbegin(); it != m_ActionTargets.rend(); ++it)
+		{
+			if (it->first->OnAction(action_handle))
+			{
+				break;
+			}
+		}
 	}
 
 	bool CActionManager::eventFilter(QObject *obj, QEvent *event)
@@ -176,8 +196,10 @@ namespace qapp
 	{
 		size_t enabled_bits = 0;
 		CActionUpdateContext ctx(enabled_bits);
-		for (auto* target : m_ActionTargets)
-			target->UpdateActions(ctx);
+		for (auto it = m_ActionTargets.rbegin(); it != m_ActionTargets.rend(); ++it)
+		{
+			it->first->UpdateActions(ctx);
+		}
 		const auto change_mask = enabled_bits ^ m_ActionEnabledBits;
 		m_ActionEnabledBits = enabled_bits;
 		for_each_set_bit(change_mask, [&](int action_index)

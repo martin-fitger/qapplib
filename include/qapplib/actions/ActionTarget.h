@@ -30,7 +30,7 @@ namespace qapp
 	{
 	public:
 		virtual void UpdateActions(CActionUpdateContext& ctx) = 0;
-		virtual void OnAction(HAction action_handle) = 0;
+		virtual bool OnAction(HAction action_handle) = 0;
 	};
 
 	class CActionUpdateContext

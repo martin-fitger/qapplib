@@ -76,7 +76,7 @@ namespace qapp
 
 		// IActionTarget interface
 		void UpdateActions(CActionUpdateContext& ctx) override;
-		void OnAction(HAction action_handle) override;
+		bool OnAction(HAction action_handle) override;
 
 	Q_SIGNALS:
 		void RecentFilesChanged();

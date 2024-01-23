@@ -36,6 +36,13 @@ namespace qapp
 	typedef const char* actionid_t;
 	static const std::intptr_t NO_ACTIONID = 0;
 
+	enum class EActionTargetPrio
+	{
+		Workbench,
+		Editor,
+		View,
+	};
+
 	class CActionManager : public QObject
 	{
 		Q_OBJECT
@@ -51,7 +58,7 @@ namespace qapp
 
 		HAction GetActionHandle(actionid_t action_id) const;
 
-		void AddActionTarget(IActionTarget* target);
+		void AddActionTarget(IActionTarget* target, EActionTargetPrio prio);
 
 		void RemoveActionTarget(IActionTarget* target);
 
@@ -89,7 +96,7 @@ namespace qapp
 
 		size_t m_ActionEnabledBits = 0;
 		std::vector<QAction*> m_Actions;
-		std::vector<IActionTarget*> m_ActionTargets;
+		std::vector<std::pair<IActionTarget*, EActionTargetPrio>> m_ActionTargets;
 		
 		std::vector<action_guid_t> m_ActionGuids;
 	};

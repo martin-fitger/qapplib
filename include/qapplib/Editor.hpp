@@ -66,7 +66,7 @@ namespace qapp
 
 		// IActionTarget Interface
 		void UpdateActions(CActionUpdateContext& ctx) override;
-		void OnAction(HAction action_handle) override;
+		bool OnAction(HAction action_handle) override;
 
 	Q_SIGNALS:
 		void DirtyChanged(bool modified);

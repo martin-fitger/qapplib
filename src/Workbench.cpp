@@ -68,7 +68,7 @@ namespace qapp
 		, m_ActionManager(action_manager)
 		, m_Settings(settings)
 	{
-		m_ActionManager.AddActionTarget(this);
+		m_ActionManager.AddActionTarget(this, EActionTargetPrio::Workbench);
 		LoadRecentFiles();
 		RemoveMissingFilesFromRecentFiles();
 	}
@@ -119,7 +119,7 @@ namespace qapp
 		if (m_CurrentEditor)
 		{
 			m_CurrentEditor->OnActivate();
-			m_ActionManager.AddActionTarget(m_CurrentEditor);
+			m_ActionManager.AddActionTarget(m_CurrentEditor, EActionTargetPrio::Editor);
 		}
 
 		emit CurrentEditorChanged(m_CurrentEditor, prev_editor);
@@ -339,27 +339,32 @@ namespace qapp
 		}
 	}
 
-	void CWorkbench::OnAction(HAction action_handle)
+	bool CWorkbench::OnAction(HAction action_handle)
 	{
 		if (s_StandardActionHandles.New == action_handle)
 		{
 			New(*m_DocumentManager.DocumentTypes().front().Handler);
+			return true;
 		}
 		else if (m_CurrentEditor)
 		{
 			if (action_handle == s_StandardActionHandles.Save)
 			{
 				Save(*m_CurrentEditor);
+				return true;
 			}
 			if (action_handle == s_StandardActionHandles.SaveAs)
 			{
 				SaveAs(*m_CurrentEditor);
+				return true;
 			}
 			if (action_handle == s_StandardActionHandles.Export)
 			{
 				Export(*m_CurrentEditor);
+				return true;
 			}
 		}
+		return false;
 	}
 
 	CDocument* CWorkbench::CurrentDocument() const

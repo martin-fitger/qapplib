@@ -115,7 +115,7 @@ namespace qapp
 		ClearRedoStack();
 		const auto allocator_state = m_Allocator.state();
 		page_buffer_ostream data(m_DataBuffer, m_DataBufferPos);
-		SCommandCreationContext ctx_create(data);
+		SCommandCreationContext ctx_create(m_Editor, data);
 		auto cmd_optional = lambda(ctx_create);
 		if (!cmd_optional.has_value())
 		{

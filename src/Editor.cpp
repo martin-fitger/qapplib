@@ -64,8 +64,9 @@ namespace qapp
 	{
 	}
 	
-	void CEditor::OnAction(HAction action_handle)
+	bool CEditor::OnAction(HAction action_handle)
 	{
+		return false;
 	}
 }
 

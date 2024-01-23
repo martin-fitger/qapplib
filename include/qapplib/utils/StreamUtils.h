@@ -19,6 +19,8 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include <QtCore/qstring.h>
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -38,17 +40,33 @@ namespace qapp
 	}
 
 	template <typename T>
+	inline T tread(std::istream& in);
+		
+	template <typename T>
 	inline bool tread(std::istream& in, T& obj)
 	{
 		in.read((char*)&obj, sizeof(T));
 		return in.gcount() == sizeof(T);
 	}
 
+	template <>
+	inline bool tread<QString>(std::istream& in, QString& obj)
+	{
+		static_assert(sizeof(QChar) == 2);
+		const auto length = qapp::tread<uint16_t>(in);
+		obj.resize(length);
+		in.read((char*)obj.data(), (size_t)length * sizeof(uint16_t));
+		return in.gcount() == (size_t)length * sizeof(uint16_t);
+	}
+
 	template <typename T>
 	inline T tread(std::istream& in)
 	{
 		T obj;
-		read_exact(in, &obj, sizeof(obj));
+		if (!tread(in, obj))
+		{
+			throw std::runtime_error("Stream read error");
+		}
 		return obj;
 	}
 
@@ -58,7 +76,16 @@ namespace qapp
 		out.write((char*)&obj, sizeof(T));
 		return !out.bad();
 	}
-	
+
+	template <>
+	inline bool twrite(std::ostream& out, const QString& obj)
+	{
+		static_assert(sizeof(QChar) == 2);
+		twrite(out, (uint16_t)obj.length());
+		out.write((const char*)obj.data(), obj.length() * 2);
+		return !out.bad();
+	}
+
 	template <std::ranges::input_range TRange>
 	inline bool write_range(std::ostream& out, const TRange& values)
 	{

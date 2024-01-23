@@ -27,9 +27,10 @@ namespace qapp
 
 	struct SCommandCreationContext
 	{
-		SCommandCreationContext(std::ostream& data)
-			: m_Data(data) {}
+		SCommandCreationContext(IEditor& editor, std::ostream& data)
+			: m_Editor(editor), m_Data(data) {}
 
+		IEditor& m_Editor;
 		std::ostream& m_Data;
 		bool m_Incomplete = false;
 	};
