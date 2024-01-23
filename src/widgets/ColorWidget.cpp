@@ -135,11 +135,11 @@ namespace qapp
 		char buf[10];
 		if (qAlpha(rgba) == 0xFF)
 		{
-			sprintf_s(buf, "#%.2x%.2x%.2x", qRed(rgba), qGreen(rgba), qBlue(rgba));
+			snprintf(buf, sizeof(buf), "#%.2x%.2x%.2x", qRed(rgba), qGreen(rgba), qBlue(rgba));
 		}
 		else
 		{
-			sprintf_s(buf, "#%.2x%.2x%.2x%.2x", qAlpha(rgba), qRed(rgba), qGreen(rgba), qBlue(rgba));
+			snprintf(buf, sizeof(buf), "#%.2x%.2x%.2x%.2x", qAlpha(rgba), qRed(rgba), qGreen(rgba), qBlue(rgba));
 		}
 		return QString(buf);
 	}
