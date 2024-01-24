@@ -331,10 +331,10 @@ namespace qapp
 		if (m_CurrentEditor)
 		{
 			ctx.Enable(s_StandardActionHandles.Export);
+			ctx.Enable(s_StandardActionHandles.SaveAs);
 			if (m_CurrentEditor->Dirty())
 			{
 				ctx.Enable(s_StandardActionHandles.Save);
-				ctx.Enable(s_StandardActionHandles.SaveAs);
 			}
 		}
 	}
