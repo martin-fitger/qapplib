@@ -63,7 +63,7 @@ namespace qapp
 		DEF_ACTION(Delete,    "&Delete",     ICON_PREFIX "delete.png",  Qt::Key_Delete,       false);
 		DEF_ACTION(SelectAll, "Select &All", "",                        Qt::CTRL + Qt::Key_A, false);
 		DEF_ACTION(Exit,      "E&xit",       ICON_PREFIX "exit.png",    Qt::CTRL + Qt::Key_Q, false);
-		DEF_ACTION(About,     "About",       ICON_PREFIX "about.png",   Qt::Key_F1,           false);
+		DEF_ACTION(About,     "About",       ICON_PREFIX "about.png",   Qt::Key_F1,           true);
 	}
 }
 

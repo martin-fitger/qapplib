@@ -39,6 +39,7 @@ namespace qapp
 	enum class EActionTargetPrio
 	{
 		Workbench,
+		MainWindow,
 		Editor,
 		View,
 	};
