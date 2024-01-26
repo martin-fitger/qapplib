@@ -20,6 +20,7 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <QtCore/qstring.h>
+#include <QtCore/qvariant.h>
 
 #include <algorithm>
 #include <fstream>
@@ -70,6 +71,14 @@ namespace qapp
 		return obj;
 	}
 
+	QVariant readVariant(std::istream& in);
+
+	template <>
+	inline QVariant tread<QVariant>(std::istream& in)
+	{
+		return readVariant(in);
+	}
+
 	template <typename T>
 	inline bool twrite(std::ostream& out, const T& obj)
 	{
@@ -84,6 +93,14 @@ namespace qapp
 		twrite(out, (uint16_t)obj.length());
 		out.write((const char*)obj.data(), obj.length() * 2);
 		return !out.bad();
+	}
+
+	bool writeVariant(std::ostream& out, const QVariant& v);
+
+	template <>
+	inline bool twrite(std::ostream& out, const QVariant& v)
+	{
+		return writeVariant(out, v);
 	}
 
 	template <std::ranges::input_range TRange>
