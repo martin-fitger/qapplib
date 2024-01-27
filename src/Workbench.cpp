@@ -229,6 +229,8 @@ namespace qapp
 			initialPath = QDir(this->LastDirectory()).filePath(editor_entry.Document->Title());
 		}
 
+		initialPath = QFileInfo(initialPath).completeBaseName();  // Remove extension
+
 		QString path = qapp::GetSaveFileName(QApplication::activeWindow(), supported_types, initialPath);
 		if (path.isEmpty())
 		{
