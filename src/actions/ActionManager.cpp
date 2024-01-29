@@ -25,6 +25,7 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 #include <QtWidgets/qaction.h>
 
 #include <qapplib/actions/ActionManager.hpp>
+#include <qapplib/Debug.h>
 
 namespace qapp
 {
@@ -149,12 +150,19 @@ namespace qapp
 
 	void CActionManager::OnAction(HAction action_handle)
 	{
-		for (auto it = m_ActionTargets.rbegin(); it != m_ActionTargets.rend(); ++it)
+		try
 		{
-			if (it->first->OnAction(action_handle))
+			for (auto it = m_ActionTargets.rbegin(); it != m_ActionTargets.rend(); ++it)
 			{
-				break;
+				if (it->first->OnAction(action_handle))
+				{
+					break;
+				}
 			}
+		}
+		catch (const std::exception& e)
+		{
+			ReportException(e);
 		}
 	}
 

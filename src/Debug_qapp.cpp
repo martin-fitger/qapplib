@@ -17,20 +17,20 @@ You should have received a copy of the GNU Lesser General Public License
 along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#include <qapplib/Debug.h>
 
-#include <stdexcept>
-
-#ifdef _DEBUG
-	#include <cassert>
-	#define QAPP_ASSERT(x) assert(x)
-	#define QAPP_VERIFY(x) assert(x)
-#else
-	#define QAPP_ASSERT(x)
-	#define QAPP_VERIFY(x) x
-#endif
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qmessagebox.h>
 
 namespace qapp
 {
-	void ReportException(const std::exception& e);
+	void ReportException(const std::exception& e)
+	{
+		auto* app = QApplication::instance();
+		const auto title = app ? QString("%1 (%2)").arg(app->applicationName()).arg(app->applicationVersion()) : QString("Error");
+		QMessageBox::critical(
+			QApplication::activeWindow(),
+			title,
+			e.what());
+	}
 }
