@@ -41,4 +41,11 @@ namespace qapp
 		}
 		return QStringView();
 	}
+
+	QString StripExtension(const QString& path)
+	{
+		const int last_dot_at = path.lastIndexOf('.');
+		const int last_slash_at = std::max(path.lastIndexOf('/'), path.lastIndexOf('\\'));
+		return last_dot_at > last_slash_at ? path.mid(0, last_dot_at) : path;
+	}
 }

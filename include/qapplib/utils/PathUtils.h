@@ -33,4 +33,6 @@ namespace qapp
 			return Qt::CaseSensitive;
 		#endif
 	}
+
+	QString StripExtension(const QString& path);
 }
