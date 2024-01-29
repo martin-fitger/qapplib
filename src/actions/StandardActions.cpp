@@ -46,6 +46,12 @@ namespace qapp
 
 	void InitStandardActions(QObject* parent, CActionManager& action_manager)
 	{
+		#ifdef _APPLE_
+			const auto delete_key = Qt::Key_Backspace;
+		#else
+			const auto delete_key = Qt::Key_Delete;
+		#endif
+
 		#define DEF_ACTION(member, name, img, keys, enabled) \
 			s_StandardActions.member = NewAction(name, img, (keys == 0) ? QKeySequence() : QKeySequence(keys), parent, enabled); \
 			s_StandardActionHandles.member = action_manager.RegisterAction(s_StandardActions.member);
@@ -60,7 +66,7 @@ namespace qapp
 		DEF_ACTION(Copy,      "&Copy",       ICON_PREFIX "copy.png",    Qt::CTRL + Qt::Key_C, false);
 		DEF_ACTION(Paste,     "&Paste",      ICON_PREFIX "paste.png",   Qt::CTRL + Qt::Key_V, false);
 		DEF_ACTION(Duplicate, "Duplicate",   ICON_PREFIX "copy.png",    Qt::CTRL + Qt::Key_D, false);
-		DEF_ACTION(Delete,    "&Delete",     ICON_PREFIX "delete.png",  Qt::Key_Delete,       false);
+		DEF_ACTION(Delete,    "&Delete",     ICON_PREFIX "delete.png",  delete_key,           false);
 		DEF_ACTION(SelectAll, "Select &All", "",                        Qt::CTRL + Qt::Key_A, false);
 		DEF_ACTION(Exit,      "E&xit",       ICON_PREFIX "exit.png",    Qt::CTRL + Qt::Key_Q, false);
 		DEF_ACTION(About,     "About",       ICON_PREFIX "about.png",   Qt::Key_F1,           true);
