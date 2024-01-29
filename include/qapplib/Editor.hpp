@@ -24,11 +24,13 @@ along with QAppLib. If not, see <http://www.gnu.org/licenses/>.
 
 #include <qapplib/actions/ActionTarget.h>
 
+class QIODevice;
 class QWidget;
 
 namespace qapp
 {
 	class CDocument;
+	struct SDocumentTypeDesc;
 
 	class IEditor: public IActionTarget
 	{
@@ -47,6 +49,8 @@ namespace qapp
 
 		virtual void OnSaved() = 0;
 
+		virtual void Export(QIODevice& out, const SDocumentTypeDesc& format) = 0;
+
 		virtual std::unique_ptr<QWidget> CreateWidget(QWidget* parent) = 0;
 	};
 
@@ -62,6 +66,7 @@ namespace qapp
 		void OnActivate() override;
 		void OnDeactivate() override;
 		void OnSaved() override;
+		void Export(QIODevice& out, const SDocumentTypeDesc& format) override;
 		std::unique_ptr<QWidget> CreateWidget(QWidget* parent) override;
 
 		// IActionTarget Interface

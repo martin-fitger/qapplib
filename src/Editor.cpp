@@ -60,6 +60,10 @@ namespace qapp
 	{
 	}
 
+	void CEditor::Export(QIODevice& out, const SDocumentTypeDesc& format)
+	{
+	}
+
 	void CEditor::UpdateActions(CActionUpdateContext& ctx)
 	{
 	}

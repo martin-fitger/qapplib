@@ -229,7 +229,7 @@ namespace qapp
 			initialPath = QDir(this->LastDirectory()).filePath(editor_entry.Document->Title());
 		}
 
-		initialPath = QFileInfo(initialPath).completeBaseName();  // Remove extension
+		initialPath = StripExtension(initialPath);
 
 		QString path = qapp::GetSaveFileName(QApplication::activeWindow(), supported_types, initialPath);
 		if (path.isEmpty())
@@ -282,7 +282,15 @@ namespace qapp
 			{
 				throw std::runtime_error(ToUtf8String(file.errorString()));
 			}
-			editor_entry.Handler->SaveDocument(*editor_entry.Document, file, *current_type);
+			switch (mode)
+			{
+			case ESaveMode::Save:
+				editor_entry.Handler->SaveDocument(*editor_entry.Document, file, *current_type);
+				break;
+			case ESaveMode::Export:
+				editor.Export(file, *current_type);
+				break;
+			}
 		}
 
 		if (ESaveMode::Save == mode)
