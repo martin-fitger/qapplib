@@ -46,7 +46,7 @@ namespace qapp
 
 	void InitStandardActions(QObject* parent, CActionManager& action_manager)
 	{
-		#ifdef _APPLE_
+		#ifdef __APPLE__
 			const auto delete_key = Qt::Key_Backspace;
 		#else
 			const auto delete_key = Qt::Key_Delete;
